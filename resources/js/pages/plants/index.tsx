@@ -1,4 +1,6 @@
 import { Head } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
+import { destroy } from '@/routes/plants';
 
 export default function Index({plants} : {plants: any[]}) {
     return (
@@ -9,7 +11,8 @@ export default function Index({plants} : {plants: any[]}) {
             
             <ul className="mt-4 list-disc list-inside">
                 {plants.map((plant) => (
-                    <li key={plant.id}>{plant.name}</li>
+                    <><li key={plant.id}>{plant.name}</li>
+                    <Link href={destroy(plant.id)} className="text-blue-500 hover:underline">Delete</Link></>
                 ))}
             </ul>
         </>

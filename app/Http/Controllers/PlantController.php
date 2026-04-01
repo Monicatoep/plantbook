@@ -14,4 +14,10 @@ class PlantController extends Controller
             'plants' => $plants,
         ]);
     }
+
+    public function destroy(Plant $plant)
+    {
+        $plant->delete();
+        return redirect()->route('plants.index')->with('success', 'Plant deleted successfully.');
+    }
 }
