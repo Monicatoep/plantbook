@@ -1,6 +1,7 @@
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
-import { dashboard } from '@/routes';
+import { dashboard,  } from '@/routes';
+import { index } from '@/routes/plants';
 
 export default function Dashboard() {
     return (
@@ -22,6 +23,16 @@ export default function Dashboard() {
                     <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
                 </div>
             </div>
+
+            <Link
+                href={index()}
+                className="fixed bottom-4 right-4 rounded-full bg-green-500 p-4 text-white shadow-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
+                data-test="add-plant-button"
+            >
+                See Plants
+            </Link>
+
+
         </>
     );
 }
