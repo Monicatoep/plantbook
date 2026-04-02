@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { Plus } from 'lucide-react';
+import { Leaf, Library, Plus } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavUser } from '@/components/nav-user';
 import {
@@ -13,7 +13,8 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
-import { create } from '@/routes/plants';
+import { index as plantsIndex, create } from '@/routes/plants';
+import { index as speciesIndex } from '@/routes/species';
 
 export function AppSidebar() {
     return (
@@ -33,6 +34,22 @@ export function AppSidebar() {
             <SidebarContent>
                 <SidebarGroup>
                     <SidebarMenu>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild>
+                                <Link href={speciesIndex()} prefetch>
+                                    <Library />
+                                    <span>Species Catalog</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild>
+                                <Link href={plantsIndex()} prefetch>
+                                    <Leaf />
+                                    <span>My Plants</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
                         <SidebarMenuItem>
                             <SidebarMenuButton asChild>
                                 <Link href={create()} prefetch>

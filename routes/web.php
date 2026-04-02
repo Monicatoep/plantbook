@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PlantController;
+use App\Http\Controllers\PlantSpeciesController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 
@@ -10,6 +11,9 @@ Route::inertia('/', 'welcome', [
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
+    Route::get('species', [PlantSpeciesController::class, 'index'])->name('species.index');
+    Route::get('species/{plantSpecies}', [PlantSpeciesController::class, 'show'])->name('species.show');
+
     Route::get('plants', [PlantController::class, 'index'])->name('plants.index');
     Route::get('plants/create', [PlantController::class, 'create'])->name('plants.create');
     Route::get('plants/{plant}', [PlantController::class, 'show'])->name('plants.show');

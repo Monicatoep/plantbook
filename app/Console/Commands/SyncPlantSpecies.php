@@ -6,10 +6,11 @@ use App\Models\PlantSpecies;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 
-#[Signature('app:sync-plant-species {--pages=5 : Number of pages to fetch}')]
-#[Description('Fetch plant species from the Perenual API and store them locally')]
+#[Signature('app:sync-plant-species')]
+#[Description('Fetch all plant species from the Perenual API and store them locally')]
 class SyncPlantSpecies extends Command
 {
     public function handle(): int
@@ -22,16 +23,19 @@ class SyncPlantSpecies extends Command
             return self::FAILURE;
         }
 
-        $pages = (int) $this->option('pages');
+        $page = 1;
+        $lastPage = 1;
         $totalSynced = 0;
 
-        for ($page = 1; $page <= $pages; $page++) {
-            $this->info("Fetching page {$page}...");
+        do {
+            $this->info("Fetching page {$page} of {$lastPage}...");
 
-            $response = Http::withoutVerifying()->get('https://perenual.com/api/v2/species-list', [
-                'key' => $apiKey,
-                'page' => $page,
-            ]);
+            $response = Http::withoutVerifying()
+                ->retry(3, 60000, when: fn ($e, $request) => $e instanceof RequestException && $e->response->status() === 429)
+                ->get('https://perenual.com/api/v2/species-list', [
+                    'key' => $apiKey,
+                    'page' => $page,
+                ]);
 
             if ($response->failed()) {
                 $this->error("Failed to fetch page {$page}: {$response->status()}");
@@ -39,10 +43,10 @@ class SyncPlantSpecies extends Command
                 return self::FAILURE;
             }
 
+            $lastPage = $response->json('last_page', 1);
             $data = $response->json('data', []);
 
             if (empty($data)) {
-                $this->info('No more data to fetch.');
                 break;
             }
 
@@ -66,10 +70,9 @@ class SyncPlantSpecies extends Command
                 $totalSynced++;
             }
 
-            if ($page >= $response->json('last_page', $pages)) {
-                break;
-            }
-        }
+            $page++;
+            sleep(1);
+        } while ($page <= $lastPage);
 
         $this->info("Synced {$totalSynced} species.");
 
