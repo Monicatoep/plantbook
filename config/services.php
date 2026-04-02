@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'perenual' => [
+        'key' => env('PERENUAL_API_KEY'),
+    ],
+
 ];
