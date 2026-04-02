@@ -11,6 +11,7 @@ Route::inertia('/', 'welcome', [
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
     Route::get('plants', [PlantController::class, 'index'])->name('plants.index');
+    Route::get('plants/create', [PlantController::class, 'create'])->name('plants.create');
     Route::get('plants/{plant}', [PlantController::class, 'show'])->name('plants.show');
     Route::delete('plants/{plant}', [PlantController::class, 'destroy'])->name('plants.destroy');
     Route::post('plants', [PlantController::class, 'store'])->name('plants.store');

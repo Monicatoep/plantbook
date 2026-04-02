@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Plant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PlantController extends Controller
 {
@@ -14,6 +15,11 @@ class PlantController extends Controller
         return inertia('plants/index', [
             'plants' => $plants,
         ]);
+    }
+
+    public function create()
+    {
+        return inertia('plants/create');
     }
 
     public function show(Plant $plant)
@@ -34,11 +40,19 @@ class PlantController extends Controller
     {
         $request->validate([
             'name' => 'required|string|min:3|max:255',
+            'description' => 'nullable|string|max:1000',
+            'last_watered_at' => 'nullable|date',
+            'image' => 'nullable|image|max:2048',
         ]);
 
-        Plant::create([
-            'name' => $request->name,
-        ]);
+        $data = $request->only('name', 'description', 'last_watered_at');
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('plants', 'public');
+            $data['image'] = Storage::disk('public')->url($path);
+        }
+
+        Plant::create($data);
 
         return redirect()->route('plants.index')->with('success', 'Plant created successfully.');
     }
