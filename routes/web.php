@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PlantController;
 use App\Http\Controllers\PlantSpeciesController;
 use Illuminate\Support\Facades\Route;
@@ -7,10 +8,10 @@ use Laravel\Fortify\Features;
 
 Route::inertia('/', 'welcome', [
     'canRegister' => Features::enabled(Features::registration()),
-])->name('home');
+])->name('welcome');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::inertia('dashboard', 'dashboard')->name('dashboard');
+    Route::get('home', HomeController::class)->name('home');
     Route::get('species', [PlantSpeciesController::class, 'index'])->name('species.index');
     Route::get('species/{plantSpecies}', [PlantSpeciesController::class, 'show'])->name('species.show');
 
