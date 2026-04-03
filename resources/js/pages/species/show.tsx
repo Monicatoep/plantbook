@@ -112,7 +112,7 @@ export default function Show({ species, alreadyAdded }: { species: any; alreadyA
                                     onChange={e => setData('description', e.target.value)}
                                     rows={3}
                                     placeholder="Describe your plant"
-                                    className="border-input placeholder:text-muted-foreground flex w-full rounded-md border bg-transparent px-3 py-2 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
+                                    className="border-input placeholder:text-muted-foreground flex w-full min-w-0 rounded-md border bg-transparent px-3 py-2 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
                                 />
                                 {errors.description && <p className="text-xs text-red-500">{errors.description}</p>}
                             </div>

@@ -1,5 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
 import { index, destroy } from '@/routes/plants';
+import { Button } from '@/components/ui/button';
 
 export default function Show({ plant }: { plant: any }) {
     const species = plant.species;
@@ -64,14 +65,11 @@ export default function Show({ plant }: { plant: any }) {
                 )}
 
                 <div>
-                    <Link
-                        href={destroy(plant.id)}
-                        method="delete"
-                        as="button"
-                        className="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
-                    >
-                        Delete Plant
-                    </Link>
+                    <Button variant="destructive" asChild>
+                        <Link href={destroy(plant.id)} method="delete" as="button">
+                            Delete Plant
+                        </Link>
+                    </Button>
                 </div>
             </div>
         </>

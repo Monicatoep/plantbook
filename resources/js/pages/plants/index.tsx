@@ -1,5 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
 import { index, show } from '@/routes/plants';
+import { Card, CardContent } from '@/components/ui/card';
 
 export default function Index({ plants }: { plants: any[] }) {
     return (
@@ -13,23 +14,18 @@ export default function Index({ plants }: { plants: any[] }) {
 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                     {plants.map((plant) => (
-                        <Link
-                            key={plant.id}
-                            href={show.url(plant.id)}
-                            className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-colors hover:border-green-300 hover:bg-green-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-green-700 dark:hover:bg-green-900/20"
-                        >
-                            {plant.image && (
-                                <img src={plant.image} alt={plant.name} className="h-32 w-full object-cover" />
-                            )}
-                            <div className="p-4">
-                                <span className="font-medium text-gray-900 dark:text-gray-100">{plant.name}</span>
-                            </div>
+                        <Link key={plant.id} href={show.url(plant.id)}>
+                            <Card className="gap-0 overflow-hidden py-0 transition-colors hover:border-green-300 hover:bg-green-50 dark:hover:border-green-700 dark:hover:bg-green-900/20">
+                                <CardContent className="p-4">
+                                    <span className="font-medium">{plant.name}</span>
+                                </CardContent>
+                            </Card>
                         </Link>
                     ))}
                 </div>
 
                 {plants.length === 0 && (
-                    <p className="text-center text-sm text-gray-400 dark:text-gray-500">No plants yet. Add one above!</p>
+                    <p className="text-center text-sm text-muted-foreground">No plants yet. Add one above!</p>
                 )}
             </div>
         </>
