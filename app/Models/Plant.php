@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Plant extends Model
 {
-    protected $fillable = ['name', 'description', 'user_id', 'plant_species_id'];
+    protected $fillable = ['name', 'description', 'user_id', 'plant_species_id', 'room_id'];
 
     public function user(): BelongsTo
     {
@@ -17,5 +17,10 @@ class Plant extends Model
     public function species(): BelongsTo
     {
         return $this->belongsTo(PlantSpecies::class, 'plant_species_id');
+    }
+
+    public function room(): BelongsTo
+    {
+        return $this->belongsTo(Room::class);
     }
 }
