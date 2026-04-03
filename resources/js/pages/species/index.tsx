@@ -24,7 +24,7 @@ export default function Index({ species }: { species: PaginatedData<any> }) {
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                     {species.data.map((s) => (
                         <Link key={s.id} href={show.url(s.id)}>
-                            <Card className="gap-0 overflow-hidden py-0 transition-colors hover:border-green-300 hover:bg-green-50 dark:hover:border-green-700 dark:hover:bg-green-900/20">
+                            <Card className="gap-0 overflow-hidden py-0 transition-colors hover:border-primary/40 hover:bg-primary/5">
                                 {s.thumbnail_url && (
                                     <img src={s.thumbnail_url} alt={s.common_name} className="h-32 w-full object-cover" />
                                 )}

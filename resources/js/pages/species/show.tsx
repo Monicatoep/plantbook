@@ -81,7 +81,7 @@ export default function Show({ species, alreadyAdded }: { species: any; alreadyA
                             Already in your plants
                         </span>
                     ) : (
-                        <Button onClick={() => setOpen(true)} className="bg-green-600 hover:bg-green-700">
+                        <Button onClick={() => setOpen(true)} className="bg-primary hover:bg-primary/90">
                             Add to My Plants
                         </Button>
                     )}
@@ -118,7 +118,7 @@ export default function Show({ species, alreadyAdded }: { species: any; alreadyA
                             </div>
                             <DialogFooter>
                                 <Button type="button" variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
-                                <Button type="submit" disabled={processing} className="bg-green-600 hover:bg-green-700">
+                                <Button type="submit" disabled={processing} className="bg-primary hover:bg-primary/90">
                                     Add Plant
                                 </Button>
                             </DialogFooter>

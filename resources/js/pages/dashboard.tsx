@@ -26,7 +26,7 @@ export default function Dashboard() {
 
             <Link
                 href={index()}
-                className="fixed bottom-4 right-4 rounded-full bg-green-500 p-4 text-white shadow-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
+                className="fixed bottom-4 right-4 rounded-full bg-primary p-4 text-primary-foreground shadow-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                 data-test="add-plant-button"
             >
                 See Plants

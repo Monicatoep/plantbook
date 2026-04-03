@@ -9,7 +9,7 @@ class PlantController extends Controller
 {
     public function index(Request $request)
     {
-        $plants = Plant::where('user_id', $request->user()->id)->get();
+        $plants = Plant::with('species')->where('user_id', $request->user()->id)->get();
 
         return inertia('plants/index', [
             'plants' => $plants,

@@ -15,9 +15,15 @@ export default function Index({ plants }: { plants: any[] }) {
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                     {plants.map((plant) => (
                         <Link key={plant.id} href={show.url(plant.id)}>
-                            <Card className="gap-0 overflow-hidden py-0 transition-colors hover:border-green-300 hover:bg-green-50 dark:hover:border-green-700 dark:hover:bg-green-900/20">
+                            <Card className="gap-0 overflow-hidden py-0 transition-colors hover:border-primary/40 hover:bg-primary/5">
+                                {plant.species?.thumbnail_url && (
+                                    <img src={plant.species.thumbnail_url} alt={plant.name} className="h-32 w-full object-cover" />
+                                )}
                                 <CardContent className="p-4">
                                     <span className="font-medium">{plant.name}</span>
+                                    {plant.species?.scientific_name?.[0] && (
+                                        <p className="mt-1 text-xs italic text-muted-foreground">{plant.species.scientific_name[0]}</p>
+                                    )}
                                 </CardContent>
                             </Card>
                         </Link>
