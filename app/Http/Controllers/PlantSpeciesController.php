@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PlantSpecies;
 use Illuminate\Http\Request;
+use App\Models\Plant;
 
 class PlantSpeciesController extends Controller
 {

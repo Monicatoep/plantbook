@@ -1,15 +1,25 @@
 import { Head, useForm } from '@inertiajs/react';
 import { index } from '@/routes/species';
 import { store } from '@/routes/plants';
+import { useState } from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
 
 export default function Show({ species, alreadyAdded }: { species: any; alreadyAdded: boolean }) {
-    const { post, processing } = useForm({
+    const [open, setOpen] = useState(false);
+    const { data, setData, post, processing, errors } = useForm({
         name: species.common_name,
+        description: '',
         plant_species_id: species.id,
     });
 
-    function addToMyPlants() {
-        post(store.url());
+    function addToMyPlants(e: React.FormEvent) {
+        e.preventDefault();
+        post(store.url(), {
+            onSuccess: () => setOpen(false),
+        });
     }
     return (
         <>
@@ -71,15 +81,50 @@ export default function Show({ species, alreadyAdded }: { species: any; alreadyA
                             Already in your plants
                         </span>
                     ) : (
-                        <button
-                            onClick={addToMyPlants}
-                            disabled={processing}
-                            className="rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50"
-                        >
+                        <Button onClick={() => setOpen(true)} className="bg-green-600 hover:bg-green-700">
                             Add to My Plants
-                        </button>
+                        </Button>
                     )}
                 </div>
+
+                <Dialog open={open} onOpenChange={setOpen}>
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>Add to My Plants</DialogTitle>
+                            <DialogDescription>Give your plant a name and optional description.</DialogDescription>
+                        </DialogHeader>
+                        <form onSubmit={addToMyPlants} className="flex flex-col gap-4">
+                            <div className="flex flex-col gap-2">
+                                <Label htmlFor="name">Name</Label>
+                                <Input
+                                    id="name"
+                                    value={data.name}
+                                    onChange={e => setData('name', e.target.value)}
+                                    placeholder="Plant name"
+                                />
+                                {errors.name && <p className="text-xs text-red-500">{errors.name}</p>}
+                            </div>
+                            <div className="flex flex-col gap-2">
+                                <Label htmlFor="description">Description</Label>
+                                <textarea
+                                    id="description"
+                                    value={data.description}
+                                    onChange={e => setData('description', e.target.value)}
+                                    rows={3}
+                                    placeholder="Describe your plant"
+                                    className="border-input placeholder:text-muted-foreground flex w-full rounded-md border bg-transparent px-3 py-2 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
+                                />
+                                {errors.description && <p className="text-xs text-red-500">{errors.description}</p>}
+                            </div>
+                            <DialogFooter>
+                                <Button type="button" variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
+                                <Button type="submit" disabled={processing} className="bg-green-600 hover:bg-green-700">
+                                    Add Plant
+                                </Button>
+                            </DialogFooter>
+                        </form>
+                    </DialogContent>
+                </Dialog>
             </div>
         </>
     );

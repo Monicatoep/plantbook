@@ -16,13 +16,6 @@ export default function Show({ plant }: { plant: any }) {
                     </p>
                 </div>
 
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                    <span className="font-medium">Last watered:</span>{' '}
-                    {plant.last_watered_at
-                        ? new Date(plant.last_watered_at).toLocaleDateString()
-                        : 'Never'}
-                </div>
-
                 <div>
                     <Link
                         href={destroy(plant.id)}
