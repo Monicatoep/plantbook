@@ -21,5 +21,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call(PlantSeeder::class);
+
+        \Artisan::call('app:restore-plant-species');
+        $this->command->info(\Artisan::output());
     }
 }

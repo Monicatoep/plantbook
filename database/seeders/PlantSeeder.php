@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Plant;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class PlantSeeder extends Seeder
@@ -115,12 +116,11 @@ class PlantSeeder extends Seeder
             ['name' => 'Jasmine', 'description' => 'A climbing or trailing plant with intensely fragrant white star-shaped flowers.'],
         ];
 
-        foreach ($plants as $plant) {
-            $name = urlencode($plant['name']);
-            $plant['image'] = "https://ui-avatars.com/api/?name={$name}&size=256&background=random&color=fff&bold=true";
+        $user = User::first();
 
+        foreach ($plants as $plant) {
             Plant::create(array_merge($plant, [
-                'last_watered_at' => now()->subDays(rand(0, 30)),
+                'user_id' => $user->id,
             ]));
         }
     }

@@ -1,7 +1,16 @@
-import { Head } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import { index } from '@/routes/species';
+import { store } from '@/routes/plants';
 
-export default function Show({ species }: { species: any }) {
+export default function Show({ species, alreadyAdded }: { species: any; alreadyAdded: boolean }) {
+    const { post, processing } = useForm({
+        name: species.common_name,
+        plant_species_id: species.id,
+    });
+
+    function addToMyPlants() {
+        post(store.url());
+    }
     return (
         <>
             <Head title={species.common_name} />
@@ -55,6 +64,22 @@ export default function Show({ species }: { species: any }) {
                         <p className="text-gray-500 dark:text-gray-400">{species.other_name.join(', ')}</p>
                     </div>
                 )}
+
+                <div>
+                    {alreadyAdded ? (
+                        <span className="inline-block rounded-lg bg-gray-200 px-4 py-2 text-sm font-medium text-gray-500 dark:bg-gray-700 dark:text-gray-400">
+                            Already in your plants
+                        </span>
+                    ) : (
+                        <button
+                            onClick={addToMyPlants}
+                            disabled={processing}
+                            className="rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50"
+                        >
+                            Add to My Plants
+                        </button>
+                    )}
+                </div>
             </div>
         </>
     );
