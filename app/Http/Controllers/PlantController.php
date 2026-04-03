@@ -24,7 +24,7 @@ class PlantController extends Controller
     public function show(Plant $plant)
     {
         return inertia('plants/show', [
-            'plant' => $plant,
+            'plant' => $plant->load('species'),
         ]);
     }
 
