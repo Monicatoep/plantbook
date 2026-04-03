@@ -16,11 +16,6 @@ class PlantController extends Controller
         ]);
     }
 
-    public function create()
-    {
-        return inertia('plants/create');
-    }
-
     public function show(Plant $plant)
     {
         return inertia('plants/show', [

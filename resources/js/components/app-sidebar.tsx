@@ -13,7 +13,7 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
-import { index as plantsIndex, create } from '@/routes/plants';
+import { index as plantsIndex } from '@/routes/plants';
 import { index as speciesIndex } from '@/routes/species';
 
 export function AppSidebar() {
@@ -47,14 +47,6 @@ export function AppSidebar() {
                                 <Link href={plantsIndex()} prefetch>
                                     <Leaf />
                                     <span>My Plants</span>
-                                </Link>
-                            </SidebarMenuButton>
-                        </SidebarMenuItem>
-                        <SidebarMenuItem>
-                            <SidebarMenuButton asChild>
-                                <Link href={create()} prefetch>
-                                    <Plus />
-                                    <span>Add Plant</span>
                                 </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
