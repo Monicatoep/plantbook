@@ -1,7 +1,10 @@
-import { Head, Link } from '@inertiajs/react';
-import { index, show } from '@/routes/species';
-import { Card, CardContent } from '@/components/ui/card';
+import { Head, Link, router } from '@inertiajs/react';
+import { Search, X } from 'lucide-react';
+import { useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { index, show } from '@/routes/species';
 
 interface PaginatedData<T> {
     data: T[];
@@ -11,7 +14,36 @@ interface PaginatedData<T> {
     prev_page_url: string | null;
 }
 
-export default function Index({ species }: { species: PaginatedData<any> }) {
+export default function Index({
+    species,
+    filters,
+}: {
+    species: PaginatedData<any>;
+    filters: { search: string };
+}) {
+    const [search, setSearch] = useState(filters.search);
+    const timeoutRef = useRef<ReturnType<typeof setTimeout>>(null);
+
+    function handleSearch(value: string) {
+        setSearch(value);
+
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+
+        timeoutRef.current = setTimeout(() => {
+            router.get(
+                index(),
+                { search: value || undefined },
+                { preserveState: true, replace: true },
+            );
+        }, 300);
+    }
+
+    function clearSearch() {
+        handleSearch('');
+    }
+
     return (
         <>
             <Head title="Species Catalog" />
@@ -19,6 +51,25 @@ export default function Index({ species }: { species: PaginatedData<any> }) {
                 <div>
                     <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Species Catalog</h1>
                     <p className="mt-1 text-sm text-muted-foreground">Browse all plant species.</p>
+                </div>
+
+                <div className="relative max-w-sm">
+                    <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+                    <Input
+                        type="text"
+                        placeholder="Search species..."
+                        value={search}
+                        onChange={(e) => handleSearch(e.target.value)}
+                        className="pl-9 pr-9"
+                    />
+                    {search && (
+                        <button
+                            onClick={clearSearch}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                        >
+                            <X className="size-4" />
+                        </button>
+                    )}
                 </div>
 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -38,6 +89,12 @@ export default function Index({ species }: { species: PaginatedData<any> }) {
                         </Link>
                     ))}
                 </div>
+
+                {species.data.length === 0 && (
+                    <p className="text-center text-sm text-muted-foreground">
+                        No species found{search ? ` for "${search}"` : ''}.
+                    </p>
+                )}
 
                 <div className="flex items-center justify-between">
                     {species.prev_page_url ? (
